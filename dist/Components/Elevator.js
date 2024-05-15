@@ -21,7 +21,7 @@ export default class Elevator {
         this.building = building;
     }
     render() {
-        return `<img id="elevator${this.elevatorNumber}" src="../assets/elv.png" class="elevator" style="left: ${this.elevatorNumber * 90}px;">`;
+        return `<img id="elevator${this.elevatorNumber}" src="../assets/elv.png" class="elevator" >`;
     }
     goToFloor(buildingNumber, floorNumber, movingTime) {
         return __awaiter(this, void 0, void 0, function* () {

@@ -2,7 +2,7 @@ import Floor from './Floor.js';
 import Elevator from './Elevator.js';
 import Building from './Building.js';
 import ElevatorsController from './EleavatorController.js';
-import Buildings from './ElevatorApp.js';
+import Buildings from './BuildingsApp.js';
 export default class ElevatorApp {
     createTheApp(numFloors, numElevators, numBuildings) {
         const buildings = new Buildings();

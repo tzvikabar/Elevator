@@ -61,6 +61,7 @@ export default class ElevatorsController {
                 // If available, sends the elevator to the calling floor
                 if (this.buildingElevators[closestElevatorIndex].isAvailable === true) {
                     this.buildingElevators[closestElevatorIndex].goToFloor(this.building.buildingNumber, floorNumber, minimalWaitingTime);
+                    console.log("move");
                 }
                 // If not available, recording of the calling floor, elevator and waiting time in the queue
                 else {

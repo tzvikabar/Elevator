@@ -40,14 +40,14 @@ export default class Floor {
         if (this.timeToWait > 0) {
             this.timer = setInterval(() => {
                 if (this.timeToWait >= 0.5) {
-                    this.timeToWait -= 0.5;
+                    this.timeToWait -= 1;
                     this.updateRender();
                 }
                 if (this.timeToWait <= 0) {
                     clearInterval(this.timer);
                     this.timer = null;
                 }
-            }, 500); // update every 500 milliseconds = 0.5 seconds
+            }, 1000); // update every 1000 milliseconds = 1 second
         }
         this.updateRender();
     }

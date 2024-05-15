@@ -3,28 +3,28 @@ import { floorHeightConfig, arrivalSound} from '../config.js';
 
 export default class Elevator {
   
-  private building!: Building;
-  private elevatorNumber: number;
-  public waitingTime: number = 0;
-  public isMoving: boolean = false;
-  public movingTime: number = 0;
-  public floorDestinationNumber: number | null = null;
-  public isAvailable: boolean = true;
+    private building!: Building;
+    private elevatorNumber: number;
+    public waitingTime: number = 0;
+    public isMoving: boolean = false;
+    public movingTime: number = 0;
+    public floorDestinationNumber: number | null = null;
+    public isAvailable: boolean = true;
 
-  constructor(elevatorNumber: number) {
-    this.elevatorNumber = elevatorNumber;
-  }
+    constructor(elevatorNumber: number) {
+        this.elevatorNumber = elevatorNumber;
+    }
 
-  public setBuilding(building: Building): void {
-    this.building = building;
+    public setBuilding(building: Building): void {
+        this.building = building;
 }
 
-  public render(): string {
-    return `<img id="elevator${this.elevatorNumber}" src="../assets/elv.png" class="elevator" style="left: ${this.elevatorNumber * 90}px;">`;
-  }
+    public render(): string {
+        return `<img id="elevator${this.elevatorNumber}" src="../assets/elv.png" class="elevator" >`;
+    }
 
 
-  public async goToFloor(buildingNumber: number, floorNumber: number, movingTime: number): Promise<void> {
+    public async goToFloor(buildingNumber: number, floorNumber: number, movingTime: number): Promise<void> {
 
     // Check if the elevator is moving
     while (this.isMoving) {

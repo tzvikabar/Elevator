@@ -13,10 +13,15 @@
   border-bottom: solid black 3px;
 }
 
+.elevator{
+  width: 50px;
+  height: 50px;
+}
+
 .elevators-container {
   position: relative;
   bottom: 0;
-  /* left: 370px;  */
+  left: 50px; 
   display: flex;
 }
 

@@ -3,7 +3,7 @@ import Elevator from './Elevator.js';
 import { numFloors, numElevators, numBuildings } from '../config.js';
 import Building from './Building.js';
 import ElevatorsController from './EleavatorController.js';
-import Buildings from './ElevatorApp.js';
+import Buildings from './BuildingsApp.js';
 
 
 
