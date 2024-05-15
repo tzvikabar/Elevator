@@ -52,7 +52,7 @@ export default class Floor {
         if (this.timeToWait > 0) {
             this.timer = setInterval(() => {
                 if (this.timeToWait >= 0.5) {
-                    this.timeToWait -= 1;
+                    this.timeToWait -= 0.5;
                     this.updateRender();
                 }
                 if (this.timeToWait <= 0) {

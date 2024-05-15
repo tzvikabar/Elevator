@@ -30,7 +30,6 @@ export default class Elevator {
                 yield new Promise(resolve => setTimeout(resolve, 500)); // Wait 500 ms before checking again
             }
             const moveElevator = () => {
-                // Update the elevator data
                 this.isMoving = true;
                 this.waitingTime = 2;
                 this.movingTime = movingTime;
@@ -38,8 +37,10 @@ export default class Elevator {
                 this.isAvailable = false;
                 const currentPosition = this.getCurrentPosition();
                 const newPosition = Math.round(floorNumber * floorHeightConfig);
-                // Keep the elevator to move
-                const elevator = document.querySelector(`#elevator${this.elevatorNumber}[buildingNumberData="${this.building.buildingNumber}"]`);
+
+                const elevator = document.querySelector(`#elevator${this.elevatorNumber}`);
+                // console.log("eeee"+elevator);
+                
                 if (elevator) {
                     const velocity = Math.round(1000 / 1.5);
                     // Calculate the duration of the animation : the animation time for a floor multiplied by the number of floors
@@ -52,7 +53,7 @@ export default class Elevator {
                     let currentStep = 0;
                     const sound = arrivalSound;
                     let previousPosition = currentPosition;
-                    const animate = () => {
+                    const movement = () => {
                         // If the number of movements necessary for the elevator to reach the calling floor has not yet been reached
                         if (currentStep < steps) {
                             const nextPosition = currentPosition + stepDistance * currentStep;
@@ -65,9 +66,11 @@ export default class Elevator {
                                 // console.log("MovingTime : " + this.movingTime)
                             }
                             // Activate the animation after the defined time interval between each animation
-                            setTimeout(animate, interval);
+                            setTimeout(movement, interval);
                         }
                         else {
+                            console.log("eeee");
+
                             elevator.style.bottom = `${newPosition}px`;
                             sound.play();
                             // Update the elevator state
@@ -75,14 +78,13 @@ export default class Elevator {
                             const intervalId = setInterval(() => {
                                 if (this.waitingTime > 0) {
                                     this.waitingTime -= 0.5;
-                                    // console.log("ArrivalWaiting : ", this.arrivalWaiting);
                                 }
                                 else {
-                                    // console.log("ArrivalWaiting : ", this.arrivalWaiting);
                                     clearInterval(intervalId); // Stop updating when arrivalWaitingTimeInSeconds have passed
                                 }
                             }, 500);
-                            // Update the elevator data
+
+                            // Update data
                             this.isMoving = false;
                             this.movingTime = 0;
                             this.floorDestinationNumber = null;
@@ -90,7 +92,7 @@ export default class Elevator {
                             this.building.getElevatorsController().elevatorIsAvailable(this.elevatorNumber);
                         }
                     };
-                    animate();
+                    movement();
                 }
             };
             // Function to wait until arrivalWaiting is zero before moving the elevator

@@ -30,6 +30,7 @@ export default class ElevatorsController {
         
             // Check for each elevator in the building the time to arrive at the calling floor
             for (let i = 0; i < this.buildingElevators.length; i++) {
+                console.log("time to arrive "+i+this.buildingElevators[i]);
                 const elevator = this.buildingElevators[i];
                 const elevatorPosition = elevator.getCurrentPosition();
 
