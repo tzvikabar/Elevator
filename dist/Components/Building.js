@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Building {
+export default class Building {
     constructor(buildingNum) {
         this.floors = [];
         this.elevators = [];
@@ -47,4 +45,3 @@ class Building {
         return buildingHTML;
     }
 }
-exports.default = Building;

@@ -1,14 +1,12 @@
-import Building from "./Building";
-import { floorHeightConfig, arrivalSound} from '../config';
+import Building from "./Building.js";
+import { floorHeightConfig, arrivalSound} from '../config.js';
 
 export default class Elevator {
   
   private building!: Building;
   private elevatorNumber: number;
-  public currentFloor: number;
-  public destinationFloor: number | null;
   public waitingTime: number = 0;
-  public isMoving: boolean;
+  public isMoving: boolean = false;
   public movingTime: number = 0;
   public floorDestinationNumber: number | null = null;
   public isAvailable: boolean = true;
@@ -48,7 +46,7 @@ export default class Elevator {
         const elevator = document.querySelector(`#elevator${this.elevatorNumber}[buildingNumberData="${this.building.buildingNumber}"]`) as HTMLElement | null;
 
         if (elevator) {
-            const velocity = Math.round((1* 1000) / 1.5)
+            const velocity = Math.round(1000/ 1.5)
             // Calculate the duration of the animation : the animation time for a floor multiplied by the number of floors
             const duration = Math.abs(velocity * (floorNumber - Math.round(currentPosition / floorHeightConfig)));
 

@@ -3,14 +3,14 @@ export default class Floor {
     public timeToWait: number;
     private floorNumber: number;
     private buildingIndex: number;
-    private timer: number | null;
+    private timer: ReturnType<typeof setTimeout> | null = null;
 
     constructor(floorNumber: number, buildingIndex: number) {
         this.floorNumber = floorNumber;
         this.isWaiting = false;
         this.buildingIndex = buildingIndex;
         this.timeToWait = 0;
-        this.timer = null;
+        // this.timer = null;
     }
 
 

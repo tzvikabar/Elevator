@@ -1,6 +1,6 @@
-import Floor from './Floor';
-import Elevator from './Elevator';
-import ElevatorsController from './EleavatorController';
+import Floor from './Floor.js';
+import Elevator from './Elevator.js';
+import ElevatorsController from './EleavatorController.js';
 
 
 export default class Building {

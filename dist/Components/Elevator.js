@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,11 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const config_1 = require("../config");
-class Elevator {
+import { floorHeightConfig, arrivalSound } from '../config.js';
+export default class Elevator {
     constructor(elevatorNumber) {
         this.waitingTime = 0;
+        this.isMoving = false;
         this.movingTime = 0;
         this.floorDestinationNumber = null;
         this.isAvailable = true;
@@ -38,20 +37,20 @@ class Elevator {
                 this.floorDestinationNumber = floorNumber;
                 this.isAvailable = false;
                 const currentPosition = this.getCurrentPosition();
-                const newPosition = Math.round(floorNumber * config_1.floorHeightConfig);
+                const newPosition = Math.round(floorNumber * floorHeightConfig);
                 // Keep the elevator to move
                 const elevator = document.querySelector(`#elevator${this.elevatorNumber}[buildingNumberData="${this.building.buildingNumber}"]`);
                 if (elevator) {
-                    const velocity = Math.round((1 * 1000) / 1.5);
+                    const velocity = Math.round(1000 / 1.5);
                     // Calculate the duration of the animation : the animation time for a floor multiplied by the number of floors
-                    const duration = Math.abs(velocity * (floorNumber - Math.round(currentPosition / config_1.floorHeightConfig)));
+                    const duration = Math.abs(velocity * (floorNumber - Math.round(currentPosition / floorHeightConfig)));
                     //  Duration in milliseconds of the interval between each rendering of the elevator so that the animation is smooth
                     const interval = 10;
                     const steps = Math.ceil(duration / interval);
                     const distance = newPosition - currentPosition;
                     const stepDistance = distance / steps; // Calculation of the distance to move the elevator on each step
                     let currentStep = 0;
-                    const sound = config_1.arrivalSound;
+                    const sound = arrivalSound;
                     let previousPosition = currentPosition;
                     const animate = () => {
                         // If the number of movements necessary for the elevator to reach the calling floor has not yet been reached
@@ -59,7 +58,7 @@ class Elevator {
                             const nextPosition = currentPosition + stepDistance * currentStep;
                             elevator.style.bottom = `${nextPosition}px`;
                             currentStep++;
-                            if (Math.abs(nextPosition - previousPosition) >= config_1.floorHeightConfig) {
+                            if (Math.abs(nextPosition - previousPosition) >= floorHeightConfig) {
                                 // Decrements this.movingTime by 0.5 for each 110 pixels moved
                                 this.movingTime -= 0.5;
                                 previousPosition = nextPosition; // Update the previous position
@@ -113,10 +112,9 @@ class Elevator {
             const currentPositionString = window.getComputedStyle(elevator).getPropertyValue('bottom');
             const currentPositionInt = parseInt(currentPositionString, 10);
             // Rounds the elevator position to the bottom of the floor it is on
-            const currentPositionByFloor = currentPositionInt - (currentPositionInt % config_1.floorHeightConfig);
+            const currentPositionByFloor = currentPositionInt - (currentPositionInt % floorHeightConfig);
             return currentPositionByFloor;
         }
         return 0;
     }
 }
-exports.default = Elevator;

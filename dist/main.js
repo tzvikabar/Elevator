@@ -1,13 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const Menager_1 = __importDefault(require("./Components/Menager"));
-const config_js_1 = require("./config.js");
-function renderElevatorApp() {
-    const elevatorAppInit = new Menager_1.default();
-    const elevatorApp = elevatorAppInit.createTheApp(config_js_1.numBuildings, config_js_1.numFloors, config_js_1.numElevators);
+import ElevatorApp from './Components/Manager.js';
+import { numBuildings, numElevators, numFloors } from './config.js';
+function renderApp() {
+    const elevatorAppInit = new ElevatorApp();
+    const elevatorApp = elevatorAppInit.createTheApp(numFloors, numElevators, numBuildings);
     const buildingsContainer = document.getElementById('buildings');
     if (buildingsContainer) {
         for (let i = 0; i < elevatorApp.buildings.length; i++) {
@@ -18,12 +13,8 @@ function renderElevatorApp() {
                 const target = event.target;
                 if (target.classList.contains('floor-button')) {
                     const floorNumberAttribute = target.getAttribute('floorNumberData');
-                    // Get the floor number
                     const buildingIndexAttribute = parseInt(target.getAttribute('buildingIndexData'));
-                    console.log("floorNumberAttribute :", floorNumberAttribute);
-                    // Check the index of the building calling the elevator
                     if (floorNumberAttribute !== null && building.buildingNumber == buildingIndexAttribute) {
-                        console.log("buildingIndexData :", buildingIndexAttribute);
                         const floorNumber = parseInt(floorNumberAttribute);
                         if (!isNaN(floorNumber)) {
                             elevatorApp.assignFloorToElevator(buildingIndexAttribute, floorNumber);
@@ -31,8 +22,9 @@ function renderElevatorApp() {
                     }
                 }
             });
-            buildingElement.innerHTML = building.render(config_js_1.numFloors);
+            buildingElement.innerHTML = building.render(numFloors);
             buildingsContainer.appendChild(buildingElement);
         }
     }
 }
+renderApp();

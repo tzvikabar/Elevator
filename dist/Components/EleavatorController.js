@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const config_1 = require("../config");
-class ElevatorsController {
+import { floorHeightConfig } from '../config.js';
+export default class ElevatorsController {
     constructor(floors, elevators) {
         this.waitingFloorsList = [];
         this.waitingFloors = [];
@@ -25,13 +23,13 @@ class ElevatorsController {
                 let totalWaitingTime;
                 // Calculation in the case where the elevator is already moving towards another floor
                 if (elevator.movingTime > 0) {
-                    movingTime = elevator.movingTime + (Math.abs(floorNumber - elevator.floorDestinationNumber) * elevator.velocity);
-                    totalWaitingTime = movingTime + elevator.arrivalWaiting;
+                    movingTime = elevator.movingTime + (Math.abs(floorNumber - elevator.floorDestinationNumber));
+                    totalWaitingTime = movingTime + elevator.waitingTime;
                 }
                 // Calculation in the case where the elevator is not moving towards another floor
                 else {
-                    movingTime = Math.abs(floorNumber - (elevatorPosition / config_1.floorHeightConfig)) * elevator.velocity;
-                    totalWaitingTime = movingTime + elevator.arrivalWaiting;
+                    movingTime = Math.abs(floorNumber - (elevatorPosition / floorHeightConfig));
+                    totalWaitingTime = movingTime + elevator.waitingTime;
                 }
                 // Keep the travel time if it is minimum and keeps the elevator index
                 if (totalWaitingTime < minimalWaitingTime) {
@@ -79,4 +77,3 @@ class ElevatorsController {
         this.buildingFloors[this.buildingFloors.length - 1 - floorNumber].updateRender();
     }
 }
-exports.default = ElevatorsController;

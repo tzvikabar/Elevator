@@ -1,12 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Floor {
+export default class Floor {
     constructor(floorNumber, buildingIndex) {
+        this.timer = null;
         this.floorNumber = floorNumber;
         this.isWaiting = false;
         this.buildingIndex = buildingIndex;
         this.timeToWait = 0;
-        this.timer = null;
+        // this.timer = null;
     }
     render() {
         const buttonClass = this.isWaiting ? 'metal linear floor-button green' : 'metal linear floor-button';
@@ -53,4 +52,3 @@ class Floor {
         this.updateRender();
     }
 }
-exports.default = Floor;

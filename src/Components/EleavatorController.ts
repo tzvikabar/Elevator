@@ -1,7 +1,7 @@
-import Building from './Building';
-import Elevator from './Elevator';
-import Floor from './Floor';
-import { floorHeightConfig} from '../config';
+import Building from './Building.js';
+import Elevator from './Elevator.js';
+import Floor from './Floor.js';
+import { floorHeightConfig} from '../config.js';
 
 export default class ElevatorsController {
     private building!: Building;
@@ -38,13 +38,13 @@ export default class ElevatorsController {
 
                 // Calculation in the case where the elevator is already moving towards another floor
                 if (elevator.movingTime > 0) {
-                    movingTime = elevator.movingTime + (Math.abs(floorNumber - elevator.floorDestinationNumber!) * elevator.velocity);
-                    totalWaitingTime = movingTime + elevator.arrivalWaiting;
+                    movingTime = elevator.movingTime + (Math.abs(floorNumber - elevator.floorDestinationNumber!));
+                    totalWaitingTime = movingTime + elevator.waitingTime;
                 }
                 // Calculation in the case where the elevator is not moving towards another floor
                 else {
-                    movingTime = Math.abs(floorNumber - (elevatorPosition / floorHeightConfig)) * elevator.velocity;
-                    totalWaitingTime = movingTime + elevator.arrivalWaiting;
+                    movingTime = Math.abs(floorNumber - (elevatorPosition / floorHeightConfig));
+                    totalWaitingTime = movingTime + elevator.waitingTime;
                 }
 
                 // Keep the travel time if it is minimum and keeps the elevator index
