@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { floorHeightConfig, arrivalSound, numFloors } from '../config.js';
+import { floorHeightConfig, arrivalSound } from '../config.js';
 export default class Elevator {
     constructor(elevatorNumber) {
         this.waitingTime = 0;
@@ -16,8 +16,6 @@ export default class Elevator {
         this.floorDestinationNumber = null;
         this.isAvailable = true;
         this.currentPosition = 0;
-        this.transitionDuration = numFloors;
-        this.transition = 0;
         this.elevatorNumber = elevatorNumber;
     }
     setBuilding(building) {
@@ -48,20 +46,26 @@ export default class Elevator {
                 const elevator = document.querySelector(`#elevator${this.elevatorNumber}`);
                 if (elevator) {
                     const distance = newPosition - currentPosition;
-                    let currentStep = 0;
                     const sound = arrivalSound;
-                    let previousPosition = currentPosition;
                     const time = Math.abs(this.currentPosition - this.floorDestinationNumber) / 2;
-                    elevator.style.transform = `translateY(-${this.floorDestinationNumber * floorHeightConfig}px`;
+                    elevator.style.transform = `translateY(-${this.floorDestinationNumber * (floorHeightConfig + 7)}px`;
                     elevator.style.transitionDuration = `${time}s`;
                     setTimeout(() => {
                         sound.play();
                         this.isActive = false;
-                        // setTimeout(() => {
-                        //     moveElevator();
-                        // }, 2000);
+                        this.isAvailable = true;
                     }, time * 1000);
                     this.currentPosition = this.floorDestinationNumber;
+                    const intervalId = setInterval(() => {
+                        if (this.waitingTime > 0) {
+                            this.waitingTime -= 0.5;
+                            // console.log("ArrivalWaiting : ", this.arrivalWaiting);
+                        }
+                        else {
+                            // console.log("ArrivalWaiting : ", this.arrivalWaiting);
+                            clearInterval(intervalId); // Stop updating when arrivalWaitingTimeInSeconds have passed
+                        }
+                    }, 500);
                 }
             };
             const waitUntilArrivalWaitingZero = () => {

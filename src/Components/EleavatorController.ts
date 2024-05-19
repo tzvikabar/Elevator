@@ -22,23 +22,23 @@ export default class ElevatorsController {
     public assignFloorToElevator(floorNumber: number): void {
         if (this.buildingElevators.length > 0) {
             
-            this.buildingFloors[this.buildingFloors.length - 1 - floorNumber].isWaiting = true; // The css floor button updated
-            this.buildingFloors[this.buildingFloors.length - 1 - floorNumber].updateRender(); // the button is displayed in green
-
+            this.buildingFloors[floorNumber].isWaiting = true; // The css floor button updated
+            this.buildingFloors[floorNumber].updateRender(); // the button is displayed in green
+            
             let closestElevatorIndex = 0;
             let minimalWaitingTime = Infinity;
-        
+            
             // Check for each elevator in the building the time to arrive at the calling floor
             for (let i = 0; i < this.buildingElevators.length; i++) {
-                console.log("time to arrive "+i+this.buildingElevators[i]);
                 const elevator = this.buildingElevators[i];
                 const elevatorPosition = elevator.currentPosition;
-
+                
                 let movingTime ;
                 let totalWaitingTime ;
-
+                
                 // Calculation in the case where the elevator is already moving towards another floor
                 if (elevator.movingTime > 0) {
+                    console.log("floor num "+floorNumber);
                     movingTime = elevator.movingTime + (Math.abs(floorNumber - elevator.floorDestinationNumber!));
                     totalWaitingTime = movingTime + elevator.waitingTime;
                 }
@@ -101,7 +101,7 @@ export default class ElevatorsController {
 
     // Function called when an elevator arrives at its destination: the button of the calling floor stops being green
     public elevatorArrival(floorNumber: number): void {
-        this.buildingFloors[this.buildingFloors.length - 1 - floorNumber].isWaiting = false;
-        this.buildingFloors[this.buildingFloors.length - 1 - floorNumber].updateRender();
+        this.buildingFloors[floorNumber].isWaiting = false;
+        this.buildingFloors[floorNumber].updateRender();
     }
 }

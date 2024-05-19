@@ -11,8 +11,6 @@ export default class Elevator {
     public floorDestinationNumber: number | null = null;
     public isAvailable: boolean = true;
     public currentPosition: number = 0;
-    public transitionDuration: number = numFloors;
-    public transition: number = 0;
 
     constructor(elevatorNumber: number) {
         this.elevatorNumber = elevatorNumber;
@@ -54,20 +52,29 @@ export default class Elevator {
         if (elevator) {
 
             const distance = newPosition - currentPosition;
-            let currentStep = 0;
+
             const sound = arrivalSound; 
-            let previousPosition = currentPosition;
 
             const time = Math.abs(this.currentPosition - this.floorDestinationNumber) / 2;
-            elevator.style.transform = `translateY(-${this.floorDestinationNumber*floorHeightConfig}px`
+            elevator.style.transform = `translateY(-${this.floorDestinationNumber*(floorHeightConfig+7)}px`
             elevator.style.transitionDuration = `${time}s`;
 
             setTimeout(() => {
                 sound.play();
-                this.isActive = false;                
+                this.isActive = false; 
+                this.isAvailable = true;
+
 
             }, time * 1000);
             this.currentPosition = this.floorDestinationNumber;
+            
+            const intervalId = setInterval(() => { // 
+                if (this.waitingTime > 0) {
+                    this.waitingTime -= 0.5;
+                } else {
+                    clearInterval(intervalId); // Stop updating when arrival
+                }
+            }, 500);
         }
     };
 
