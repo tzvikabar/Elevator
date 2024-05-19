@@ -1,7 +1,6 @@
 import Building from './Building.js';
 import Elevator from './Elevator.js';
 import Floor from './Floor.js';
-import { floorHeightConfig} from '../config.js';
 
 export default class ElevatorsController {
     private building!: Building;
@@ -22,8 +21,8 @@ export default class ElevatorsController {
     public assignFloorToElevator(floorNumber: number): void {
         if (this.buildingElevators.length > 0) {
             
-            this.buildingFloors[floorNumber].isWaiting = true; // The css floor button updated
-            this.buildingFloors[floorNumber].updateRender(); // the button is displayed in green
+            this.buildingFloors[this.buildingFloors.length - 1 - floorNumber].isWaiting = true;
+            this.buildingFloors[this.buildingFloors.length - 1 - floorNumber].updateRender();
             
             let closestElevatorIndex = 0;
             let minimalWaitingTime = Infinity;
@@ -36,19 +35,18 @@ export default class ElevatorsController {
                 let movingTime ;
                 let totalWaitingTime ;
                 
-                // Calculation in the case where the elevator is already moving towards another floor
+                // if the elevator is moving
                 if (elevator.movingTime > 0) {
                     console.log("floor num "+floorNumber);
-                    movingTime = elevator.movingTime + (Math.abs(floorNumber - elevator.floorDestinationNumber!));
+                    movingTime = elevator.movingTime + ((elevator.floorDestinationNumber- elevator.currentPosition)/2);
                     totalWaitingTime = movingTime + elevator.waitingTime;
                 }
-                // Calculation in the case where the elevator is not moving towards another floor
+                // if the elevator is not moving
                 else {
-                    movingTime = Math.abs(floorNumber - (elevatorPosition / floorHeightConfig));
+                    movingTime = floorNumber / 2;
                     totalWaitingTime = movingTime + elevator.waitingTime;
                 }
 
-                // Keep the travel time if it is minimum and keeps the elevator index
                 if (totalWaitingTime < minimalWaitingTime) {
                     closestElevatorIndex = i;
                     minimalWaitingTime = totalWaitingTime;
@@ -72,36 +70,5 @@ export default class ElevatorsController {
             }
 
         }
-    }
-
-
-    // Function called when an elevator frees up to take charge of a floor waiting for this elevator
-    public elevatorIsAvailable(elevatorNumber: number): void {
-        // Check if there are floors in the waiting list
-        if (this.waitingFloorsList.length > 0) {
-            for (let i = 0; i < this.waitingFloorsList.length; i++) {
-                const nextFloor = this.waitingFloorsList[i];
-    
-                // Check if the elevator with the minimum waiting time for this floor is the one that is now free and keep his index
-                const indexInWaitingFloors = this.waitingFloors.findIndex(floor => floor.floorNumber === nextFloor && floor.elevatorNumber === elevatorNumber);
-    
-                // In the case where the elevator with the minimum waiting time for this floor is the one that is now free
-                if (indexInWaitingFloors !== -1) {
-                    const { floorNumber, waitingTime } = this.waitingFloors[indexInWaitingFloors];
-    
-                    // Remove the calling floor from the waiting list
-                    this.waitingFloors.splice(indexInWaitingFloors, 1);
-                    this.waitingFloorsList.splice(i, 1);
-    
-                    this.buildingElevators[elevatorNumber].goToFloor(this.building.buildingNumber, floorNumber, waitingTime);
-                }
-            }
-        }
-    }
-
-    // Function called when an elevator arrives at its destination: the button of the calling floor stops being green
-    public elevatorArrival(floorNumber: number): void {
-        this.buildingFloors[floorNumber].isWaiting = false;
-        this.buildingFloors[floorNumber].updateRender();
     }
 }

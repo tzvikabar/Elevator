@@ -8,7 +8,7 @@ export default class Elevator {
     public waitingTime: number = 0;
     public isActive: boolean = false;
     public movingTime: number = 0;
-    public floorDestinationNumber: number | null = null;
+    public floorDestinationNumber: number  = 0;
     public isAvailable: boolean = true;
     public currentPosition: number = 0;
 
@@ -23,7 +23,8 @@ export default class Elevator {
     public render(): string {
         return `<img id="elevator${this.elevatorNumber}" 
         src="../assets/elv.png" 
-        class="elevator" >
+        class="elevator"
+        buildingNumberData="${this.building.buildingNumber}" >
         `;
     }
 
@@ -46,8 +47,8 @@ export default class Elevator {
         const currentPosition = this.currentPosition;
         const newPosition = Math.round(floorNumber * floorHeightConfig);
 
-        // Keep the elevator to move
-        const elevator = document.querySelector(`#elevator${this.elevatorNumber}`) as HTMLElement | null;
+        // find the element
+        const elevator = document.querySelector(`#elevator${this.elevatorNumber}[buildingNumberData="${this.building.buildingNumber}"]`) as HTMLElement | null;
 
         if (elevator) {
 

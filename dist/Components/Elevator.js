@@ -13,7 +13,7 @@ export default class Elevator {
         this.waitingTime = 0;
         this.isActive = false;
         this.movingTime = 0;
-        this.floorDestinationNumber = null;
+        this.floorDestinationNumber = 0;
         this.isAvailable = true;
         this.currentPosition = 0;
         this.elevatorNumber = elevatorNumber;
@@ -24,7 +24,8 @@ export default class Elevator {
     render() {
         return `<img id="elevator${this.elevatorNumber}" 
         src="../assets/elv.png" 
-        class="elevator" >
+        class="elevator"
+        buildingNumberData="${this.building.buildingNumber}" >
         `;
     }
     goToFloor(buildingNumber, floorNumber, movingTime) {
@@ -42,8 +43,8 @@ export default class Elevator {
                 this.isAvailable = false;
                 const currentPosition = this.currentPosition;
                 const newPosition = Math.round(floorNumber * floorHeightConfig);
-                // Keep the elevator to move
-                const elevator = document.querySelector(`#elevator${this.elevatorNumber}`);
+                // find the element
+                const elevator = document.querySelector(`#elevator${this.elevatorNumber}[buildingNumberData="${this.building.buildingNumber}"]`);
                 if (elevator) {
                     const distance = newPosition - currentPosition;
                     const sound = arrivalSound;
@@ -59,11 +60,9 @@ export default class Elevator {
                     const intervalId = setInterval(() => {
                         if (this.waitingTime > 0) {
                             this.waitingTime -= 0.5;
-                            // console.log("ArrivalWaiting : ", this.arrivalWaiting);
                         }
                         else {
-                            // console.log("ArrivalWaiting : ", this.arrivalWaiting);
-                            clearInterval(intervalId); // Stop updating when arrivalWaitingTimeInSeconds have passed
+                            clearInterval(intervalId); // Stop updating when arrival
                         }
                     }, 500);
                 }
