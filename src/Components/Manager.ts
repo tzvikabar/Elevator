@@ -25,7 +25,7 @@ console.log("build: "+numBuildings +"elev: "+numElevators +"floor: " + numFloors
                 const elevator = new Elevator(i);
                 building.addElevator(elevator);
             }
-    
+
             const elevatorsControl = new ElevatorsController(building.getFloors(), building.getElevators());
             building.setElevatorsController(elevatorsControl);
 

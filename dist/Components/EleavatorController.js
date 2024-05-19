@@ -17,8 +17,9 @@ export default class ElevatorsController {
             let minimalWaitingTime = Infinity;
             // Check for each elevator in the building the time to arrive at the calling floor
             for (let i = 0; i < this.buildingElevators.length; i++) {
+                console.log("time to arrive " + i + this.buildingElevators[i]);
                 const elevator = this.buildingElevators[i];
-                const elevatorPosition = elevator.getCurrentPosition();
+                const elevatorPosition = elevator.currentPosition;
                 let movingTime;
                 let totalWaitingTime;
                 // Calculation in the case where the elevator is already moving towards another floor

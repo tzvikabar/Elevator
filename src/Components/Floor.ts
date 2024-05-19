@@ -10,7 +10,6 @@ export default class Floor {
         this.isWaiting = false;
         this.buildingIndex = buildingIndex;
         this.timeToWait = 0;
-        // this.timer = null;
     }
 
 
@@ -59,7 +58,7 @@ export default class Floor {
                     clearInterval(this.timer!);
                     this.timer = null;
                 }
-            }, 1000); // update every 1000 milliseconds = 1 second
+            }, 500); // update every 0.5 second
         }
         this.updateRender();
     }

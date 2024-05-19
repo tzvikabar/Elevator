@@ -32,7 +32,7 @@ export default class ElevatorsController {
             for (let i = 0; i < this.buildingElevators.length; i++) {
                 console.log("time to arrive "+i+this.buildingElevators[i]);
                 const elevator = this.buildingElevators[i];
-                const elevatorPosition = elevator.getCurrentPosition();
+                const elevatorPosition = elevator.currentPosition;
 
                 let movingTime ;
                 let totalWaitingTime ;
