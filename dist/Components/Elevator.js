@@ -41,8 +41,6 @@ export default class Elevator {
                 this.movingTime = movingTime;
                 this.floorDestinationNumber = floorNumber;
                 this.isAvailable = false;
-                const currentPosition = this.currentPosition;
-                const newPosition = Math.round(floorNumber * floorHeightConfig);
                 // find the element
                 const elevator = document.querySelector(`#elevator${this.elevatorNumber}[buildingNumberData="${this.building.buildingNumber}"]`);
                 if (elevator) {
@@ -55,6 +53,7 @@ export default class Elevator {
                         sound.play();
                         this.isActive = false;
                         this.isAvailable = true;
+                        this.building.getElevatorsController().freeElevator(this.elevatorNumber);
                     }, time * 1000);
                     this.currentPosition = this.floorDestinationNumber;
                     // updating the waiting time
