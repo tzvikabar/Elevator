@@ -55,6 +55,7 @@ export default class Elevator {
                         sound.play();
                         this.isActive = false;
                         this.isAvailable = true;
+                        this.building.getElevatorsController.freeElevator(this.elevatorNumber);
                     }, time * 1000);
                     this.currentPosition = this.floorDestinationNumber;
                     // updating the waiting time

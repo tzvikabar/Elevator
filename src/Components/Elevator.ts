@@ -49,21 +49,22 @@ export default class Elevator {
 
         // find the element
         const elevator = document.querySelector(`#elevator${this.elevatorNumber}[buildingNumberData="${this.building.buildingNumber}"]`) as HTMLElement | null;
-
+        
         if (elevator) {
-
+            
             const sound = arrivalSound; 
             const time = Math.abs(this.currentPosition - this.floorDestinationNumber) * secondsPerFloor;
             // make the elevator movement
             elevator.style.transform = `translateY(-${this.floorDestinationNumber*(floorHeightConfig+7)}px`
             elevator.style.transitionDuration = `${time}s`;
-
+            
             setTimeout(() => {
                 sound.play();
                 this.isActive = false; 
                 this.isAvailable = true;
-
-
+                this.building.getElevatorsController.freeElevator(this.elevatorNumber);
+                
+                
             }, time * 1000);
             this.currentPosition = this.floorDestinationNumber;
             // updating the waiting time
@@ -76,7 +77,7 @@ export default class Elevator {
             }, 500);
         }
     };
-
+    
     const waitUntilArrivalWaitingZero = () => {
         if (this.waitingTime <= 0) {
             moveElevator();

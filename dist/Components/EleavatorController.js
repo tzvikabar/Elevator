@@ -51,4 +51,23 @@ export default class ElevatorsController {
             }
         }
     }
+    // Function called when an elevator frees up to take charge of a floor waiting for this elevator
+    freeElevator(elevatorNumber) {
+        // Check if there are floors in the waiting list
+        if (this.waitingFloorsList.length > 0) {
+            for (let i = 0; i < this.waitingFloorsList.length; i++) {
+                const nextFloor = this.waitingFloorsList[i];
+                // Check if the elevator with the minimum waiting time for this floor is the one that is now free and keep his index
+                const indexInWaitingFloors = this.waitingFloors.findIndex(floor => floor.floorNumber === nextFloor && floor.elevatorNumber === elevatorNumber);
+                // In the case where the elevator with the minimum waiting time for this floor is the one that is now free
+                if (indexInWaitingFloors !== -1) {
+                    const { floorNumber, waitingTime } = this.waitingFloors[indexInWaitingFloors];
+                    // Remove the calling floor from the waiting list
+                    this.waitingFloors.splice(indexInWaitingFloors, 1);
+                    this.waitingFloorsList.splice(i, 1);
+                    this.buildingElevators[elevatorNumber].goToFloor(floorNumber, waitingTime);
+                }
+            }
+        }
+    }
 }
