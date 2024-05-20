@@ -69,7 +69,6 @@ export default class ElevatorsController {
 
         }
     }
-    // Function called when an elevator frees up to take charge of a floor waiting for this elevator
     public freeElevator(elevatorNumber: number): void {
         // Check if there are floors in the waiting list
         if (this.waitingFloorsList.length > 0) {
