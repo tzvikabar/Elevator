@@ -57,8 +57,8 @@ export default class ElevatorsController {
                 // present the waiting time on the floor
                 this.buildingFloors[this.buildingFloors.length - 1 - floorNumber].calculateTime(minimalWaitingTime);
 
-                // send the avilable elevator or add to queue
-                if (this.buildingElevators[closestElevatorIndex].isAvailable === true) {
+                // send the available elevator or add to queue
+                if (this.buildingElevators[closestElevatorIndex].isAvailable === true && this.buildingElevators[closestElevatorIndex].currentPosition !== floorNumber) {
                     this.buildingElevators[closestElevatorIndex].goToFloor(floorNumber, minimalWaitingTime);
                 }
                 else {
