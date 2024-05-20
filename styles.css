@@ -1,5 +1,6 @@
 .buildings {
   display: flex;
+  align-items: flex-end;
 }
 
 .building-container {

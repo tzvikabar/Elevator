@@ -1,38 +1,41 @@
-// import Building from './Building.js';
-// import Floor from './Floor.js';
-// import Elevator from './Elevator.js';
-// import ElevatorsController from './EleavatorController.js';
+import Floor from './Floor.js';
+import Elevator from './Elevator.js';
+import Building from './Building.js';
+import ElevatorsController from './EleavatorController.js';
+import Buildings from './BuildingsApp.js';
 
 
 
-// export default class Factory  {
-//     private floorFactory: Floor;
-//     private elevatorFactory: Elevator;
-//     private elevatorsControllerFactory: ElevatorsController;
+export default class ElevatorAppFactory {
 
-//     constructor() {
-//         this.floorFactory = new Floor();
-//         this.elevatorFactory = new Elevator();
-//         this.elevatorsControllerFactory = new ElevatorsController();
-//     }
+    createTheApp(numFloors: number[], numElevators: number[], numBuildings: number): Buildings {     // create a buildings app with specified number of floors, elevators, and buildings.
 
-//     public createBuilding(numFloors: number, numElevators: number, buildingIndex: number, elevatorType: string): Building {
-//         const building = new Building(buildingIndex);
-//         building.buildingNumber = buildingIndex;
+        const buildings = new Buildings();
 
-//         // add floors
-//         for (let i = numFloors - 1; i >= 0; i--) {
-//             const floor = this.floorFactory.createFloor(i, buildingIndex);
-//             building.addFloor(floor);
-//         }
+        // loop for building
+        for (let buildingIndex = 0; buildingIndex < numBuildings; buildingIndex++) {
+            const building = new Building(buildingIndex);
+            building.buildingNumber = buildingIndex;
+    
+            // add floors
+            for (let i = numFloors[buildingIndex] - 1; i >= 0; i--) {
+                const floor = new Floor(i, buildingIndex);
+                building.addFloor(floor);
+            }
+            
+            // add elevators
+            for (let i = 0; i < numElevators[buildingIndex]; i++) {
+                const elevator = new Elevator(i);
+                building.addElevator(elevator);
+            }
+            
+            // add controller for the app
+            const elevatorsControl = new ElevatorsController(building.getFloors(), building.getElevators());
+            building.setElevatorsController(elevatorsControl);
 
-//         // add elevators
-//         for (let i = 0; i < numElevators; i++) {
-//             const elevator = this.elevatorFactory.createElevator(elevatorType, i);
-//             building.addElevator(elevator);
-//         }
+            buildings.addBuilding(building);
+        }
 
-//         return building;
-//     }
-
-// }
+        return buildings;
+    }
+}
