@@ -44,9 +44,6 @@ export default class Elevator {
         this.floorDestinationNumber = floorNumber;
         this.isAvailable = false;
 
-        const currentPosition = this.currentPosition;
-        const newPosition = Math.round(floorNumber * floorHeightConfig);
-
         // find the element
         const elevator = document.querySelector(`#elevator${this.elevatorNumber}[buildingNumberData="${this.building.buildingNumber}"]`) as HTMLElement | null;
         
