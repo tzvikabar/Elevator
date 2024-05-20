@@ -1,9 +1,9 @@
-import ElevatorApp from './Components/Manager.js';
+import ElevatorAppFactory from './Components/Factory.js';
 import { numBuildings, numElevators, numFloors } from './config.js';
 
 function renderApp() {
 
-    const elevatorAppInit = new ElevatorApp();
+    const elevatorAppInit = new ElevatorAppFactory();
     const elevatorApp = elevatorAppInit.createTheApp(numFloors,numElevators,numBuildings);
 
     const buildingsContainer = document.getElementById('buildings');
@@ -29,7 +29,7 @@ function renderApp() {
                 }
             });
             
-            buildingElement.innerHTML = building.render(numFloors);
+            buildingElement.innerHTML = building.render(numFloors[i]);
             buildingsContainer.appendChild(buildingElement);
         }
     }
