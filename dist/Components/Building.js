@@ -24,8 +24,9 @@ export default class Building {
     getElevatorsController() {
         return this.elevatorsController;
     }
+    // render the building to an html div
     render(numFloors) {
-        const marginRight = (numFloors * 75);
+        const marginRight = (numFloors * 85);
         let buildingHTML = `<div 
             style="margin-right: ${marginRight}px; 
             display: flex; 

@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { floorHeightConfig, arrivalSound } from '../config.js';
+import { floorHeightConfig, arrivalSound, secondsPerFloor } from '../config.js';
 export default class Elevator {
     constructor(elevatorNumber) {
         this.waitingTime = 0;
@@ -28,14 +28,14 @@ export default class Elevator {
         buildingNumberData="${this.building.buildingNumber}" >
         `;
     }
-    goToFloor(buildingNumber, floorNumber, movingTime) {
+    goToFloor(floorNumber, movingTime) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Check if the elevator is moving
+            // check if the elevator is moving
             while (this.isActive) {
                 yield new Promise(resolve => setTimeout(resolve, 500));
             }
             const moveElevator = () => {
-                // Update data
+                // update data
                 this.isActive = true;
                 this.waitingTime = 2;
                 this.movingTime = movingTime;
@@ -46,9 +46,9 @@ export default class Elevator {
                 // find the element
                 const elevator = document.querySelector(`#elevator${this.elevatorNumber}[buildingNumberData="${this.building.buildingNumber}"]`);
                 if (elevator) {
-                    const distance = newPosition - currentPosition;
                     const sound = arrivalSound;
-                    const time = Math.abs(this.currentPosition - this.floorDestinationNumber) / 2;
+                    const time = Math.abs(this.currentPosition - this.floorDestinationNumber) * secondsPerFloor;
+                    // make the elevator movement
                     elevator.style.transform = `translateY(-${this.floorDestinationNumber * (floorHeightConfig + 7)}px`;
                     elevator.style.transitionDuration = `${time}s`;
                     setTimeout(() => {
@@ -57,12 +57,13 @@ export default class Elevator {
                         this.isAvailable = true;
                     }, time * 1000);
                     this.currentPosition = this.floorDestinationNumber;
+                    // updating the waiting time
                     const intervalId = setInterval(() => {
                         if (this.waitingTime > 0) {
                             this.waitingTime -= 0.5;
                         }
                         else {
-                            clearInterval(intervalId); // Stop updating when arrival
+                            clearInterval(intervalId); // stop updating when arrival
                         }
                     }, 500);
                 }

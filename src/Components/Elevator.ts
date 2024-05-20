@@ -1,5 +1,5 @@
 import Building from "./Building.js";
-import { floorHeightConfig, arrivalSound, numFloors} from '../config.js';
+import { floorHeightConfig, arrivalSound, secondsPerFloor} from '../config.js';
 
 export default class Elevator {
 
@@ -29,15 +29,15 @@ export default class Elevator {
     }
 
 
-    public async goToFloor(buildingNumber: number, floorNumber: number, movingTime: number): Promise<void> {
+    public async goToFloor(floorNumber: number, movingTime: number): Promise<void> {
 
-    // Check if the elevator is moving
+    // check if the elevator is moving
     while (this.isActive) {
         await new Promise(resolve => setTimeout(resolve, 500));
     }
 
     const moveElevator = () => {
-        // Update data
+        // update data
         this.isActive = true;
         this.waitingTime = 2;
         this.movingTime = movingTime; 
@@ -52,11 +52,9 @@ export default class Elevator {
 
         if (elevator) {
 
-            const distance = newPosition - currentPosition;
-
             const sound = arrivalSound; 
-
-            const time = Math.abs(this.currentPosition - this.floorDestinationNumber) / 2;
+            const time = Math.abs(this.currentPosition - this.floorDestinationNumber) * secondsPerFloor;
+            // make the elevator movement
             elevator.style.transform = `translateY(-${this.floorDestinationNumber*(floorHeightConfig+7)}px`
             elevator.style.transitionDuration = `${time}s`;
 
@@ -68,12 +66,12 @@ export default class Elevator {
 
             }, time * 1000);
             this.currentPosition = this.floorDestinationNumber;
-            
-            const intervalId = setInterval(() => { // 
+            // updating the waiting time
+            const intervalId = setInterval(() => {
                 if (this.waitingTime > 0) {
                     this.waitingTime -= 0.5;
                 } else {
-                    clearInterval(intervalId); // Stop updating when arrival
+                    clearInterval(intervalId); // stop updating when arrival
                 }
             }, 500);
         }
